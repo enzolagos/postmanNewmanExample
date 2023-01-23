@@ -1,0 +1,39 @@
+{
+	"id": "ab22cea0-bf61-486f-a1a9-abf98eb758f7",
+	"name": "Presentation CRUD",
+	"values": [
+		{
+			"key": "HOST",
+			"value": "https://todo.ly",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userMail",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "userPassword",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "projectId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "itemId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-01-19T00:45:48.225Z",
+	"_postman_exported_using": "Postman/10.8.1"
+}

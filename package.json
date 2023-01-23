@@ -1,0 +1,15 @@
+{
+  "name": "newmanpractice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "newman:presentationCrud":"newman run PresentationCRUD.json -r htmlextra -e envPresentationCRUD.json"
+  },
+  "author": "enzoLakes",
+  "license": "ISC",
+  "dependencies": {
+    "newman": "^5.3.2",
+    "newman-reporter-htmlextra": "^1.22.11"
+  }
+}

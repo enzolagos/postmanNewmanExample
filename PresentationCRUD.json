@@ -1,0 +1,356 @@
+{
+	"info": {
+		"_postman_id": "c5f52923-233d-4718-8e69-923ae9b696e1",
+		"name": "PresentationCRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24905461"
+	},
+	"item": [
+		{
+			"name": "Create user (Register)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", () => {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});\r",
+							"//headers\r",
+							"pm.test(\"Content-Type is present and has json value\", function () {\r",
+							"   pm.response.to.have.header(\"Content-Type\");\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+							"});\r",
+							"//body\r",
+							"pm.test(\"Body Response: FullName is Enzo Lakes\", () => {\r",
+							"  pm.expect(responseJson.FullName).to.eql(\"Enzo Lakes\");\r",
+							"});\r",
+							"//cookies\r",
+							"pm.test(\"Cookie ASP.NET_SessionId is present\", () => {\r",
+							"  pm.expect(pm.cookies.has('ASP.NET_SessionId')).to.be.true;\r",
+							"});\r",
+							"\r",
+							"//guardo mail y contra para luego loguearme\r",
+							"pm.environment.set(\"userMail\",responseJson.Email)\r",
+							"pm.environment.set(\"userPassword\",\"123456\")\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Email\":\"{{$randomLastName}}{{$randomInt}}@testing.com\",\r\n    \"Password\":\"123456\",\r\n    \"FullName\":\"Enzo Lakes\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/api/user.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"user.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user (Login)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{userPassword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{userMail}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/api/user.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"user.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"projectId\",responseJson.Id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{userPassword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{userMail}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Content\":\"Test{{$randomInt}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/api/projects.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"projects.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get project by ID",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{userPassword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{userMail}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/api/projects/{{projectId}}.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"projects",
+						"{{projectId}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create item in a project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"pm.environment.set(\"itemId\",responseJson.Id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{userPassword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{userMail}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Content\":\"item{{$randomInt}}\",\r\n    \"ProjectId\":\"{{projectId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/api/items.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"items.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar item by ID",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{userPassword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{userMail}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Priority\":3,\r\n    \"Content\": \"cambio el contenido\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/api/items/{{itemId}}.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{itemId}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete item by ID",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{userPassword}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{userMail}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/api/items/{{itemId}}.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{itemId}}.json"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
