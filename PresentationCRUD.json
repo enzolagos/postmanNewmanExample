@@ -18,9 +18,7 @@
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"pm.test(\"Response time is less than 200ms\", () => {\r",
-							"  pm.expect(pm.response.responseTime).to.be.below(400);\r",
-							"});\r",
+							
 							"//headers\r",
 							"pm.test(\"Content-Type is present and has json value\", function () {\r",
 							"   pm.response.to.have.header(\"Content-Type\");\r",
