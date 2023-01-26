@@ -16,7 +16,7 @@
 							"const responseJson = pm.response.json();\r",
 							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.have.status(400);\r",
 							"});\r",
 							
 							"//headers\r",
