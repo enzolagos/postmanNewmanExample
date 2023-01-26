@@ -15,12 +15,14 @@ jobs:
     - uses: actions/checkout@v3
     - name: create dir
       run: mkdir reports
+    - name: see path
+      run: pwd
     - name: docker create volume
       run: docker volume create --name myvol --opt type=none --opt device="/home/runner/work/postman-newman/postman-newman/reports" --opt o=bind
     - name: Build the Docker image
-      run: docker build . -t newmandocker
+      run: docker build . -t newman
     - name: Run docker container
-      run: docker run -v myvol:/newman newmandocker
+      run: docker run -v myvol:/newman newman
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
