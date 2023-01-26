@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c5f52923-233d-4718-8e69-923ae9b696e1",
+		"_postman_id": "a5e3e1b0-0987-4959-89a9-bc57eaddaf30",
 		"name": "PresentationCRUD",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24905461"
@@ -16,9 +16,8 @@
 							"const responseJson = pm.response.json();\r",
 							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(400);\r",
+							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							
 							"//headers\r",
 							"pm.test(\"Content-Type is present and has json value\", function () {\r",
 							"   pm.response.to.have.header(\"Content-Type\");\r",
@@ -36,9 +35,6 @@
 							"//guardo mail y contra para luego loguearme\r",
 							"pm.environment.set(\"userMail\",responseJson.Email)\r",
 							"pm.environment.set(\"userPassword\",\"123456\")\r",
-							"\r",
-							"\r",
-							"\r",
 							""
 						],
 						"type": "text/javascript"
@@ -86,8 +82,90 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Login is successfull\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"Error\");\r",
+							"});\r",
+							"\r",
+							"//si el login fue satisfactorio, testea que se haya seteado bien la var userMail\r",
+							"if(!pm.response.text().includes(\"Error\")){\r",
+							"    pm.test(\"Body Response: Email is correctly setted\", () => {\r",
+							"        pm.expect(responseJson.Email).to.eql(pm.environment.get(\"userMail\"));\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Content-Type is present and has json value\", function () {\r",
+							"   pm.response.to.have.header(\"Content-Type\");\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{userMail}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{userPassword}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/api/user.json",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"api",
+						"user.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user (Login) FAIL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Login is successfull\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"Error\");\r",
+							"});\r",
+							"\r",
+							"//si el login fue satisfactorio, testea que se haya seteado bien la var userMail\r",
+							"if(!pm.response.text().includes(\"Error\")){\r",
+							"    pm.test(\"Body Response: Email is correctly setted\", () => {\r",
+							"        pm.expect(responseJson.Email).to.eql(pm.environment.get(\"userMail\"));\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Content-Type is present and has json value\", function () {\r",
+							"   pm.response.to.have.header(\"Content-Type\");\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -100,7 +178,7 @@
 					"basic": [
 						{
 							"key": "password",
-							"value": "{{userPassword}}",
+							"value": "11351561561",
 							"type": "string"
 						},
 						{
@@ -136,6 +214,15 @@
 							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*\r",
+							"pm.test(\"Body request matches body response\", ()=>{\r",
+							"    pm.expect(requestJson.Content).to.eql(pm.environment.get(\"userMail\"));\r",
+							"}) */\r",
+							"\r",
+							"pm.test(\"Login is successfull\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"Error\");\r",
 							"});\r",
 							"\r",
 							"pm.environment.set(\"projectId\",responseJson.Id)"
@@ -186,6 +273,29 @@
 		},
 		{
 			"name": "Get project by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Login is successfull\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"Error\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body Response: projectId is correctly setted\", () => {\r",
+							"        pm.expect(responseJson.Id).to.eql(pm.environment.get(\"projectId\"));\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -227,7 +337,20 @@
 						"exec": [
 							"const responseJson = pm.response.json();\r",
 							"\r",
-							"pm.environment.set(\"itemId\",responseJson.Id)"
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Login is successfull\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"Error\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Item was created in the correct project\", () => {\r",
+							"        pm.expect(responseJson.ProjectId).to.eql(pm.environment.get(\"projectId\"));\r",
+							"    });\r",
+							"\r",
+							"pm.environment.set(\"itemId\",responseJson.Id);\r",
+							"pm.environment.set(\"itemContent\",responseJson.Content)"
 						],
 						"type": "text/javascript"
 					}
@@ -275,6 +398,30 @@
 		},
 		{
 			"name": "Actualizar item by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Login is successfull\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"Error\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Item has been updated\", () => {\r",
+							"    pm.expect(responseJson.Content).not.to.eql(pm.environment.get(\"itemContent\"));\r",
+							"    pm.expect(responseJson.Content).to.eql(\"cambio el contenido\");\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -318,6 +465,29 @@
 		},
 		{
 			"name": "Delete item by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Login is successfull\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"Error\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Item by ID has been deleted\",()=>{\r",
+							"    pm.expect(responseJson.Deleted).to.eql(true)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "basic",
