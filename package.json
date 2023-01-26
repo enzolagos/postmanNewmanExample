@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "newman:presentationCrud":"newman run PresentationCRUD.json -r htmlextra -e envPresentationCRUD.json"
+    "newman:presentationCrud":"newman run PresentationCRUD.json -r htmlextra -e envPresentationCRUD.json --bail"
   },
   "author": "enzoLakes",
   "license": "ISC",
