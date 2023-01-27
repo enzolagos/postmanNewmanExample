@@ -13,18 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: create dir
-      run: mkdir reports
-    - name: docker create volume
-      run: docker volume create --name myvol --opt type=none --opt device="/home/runner/work/postmanNewmanExample/postmanNewmanExample/reports" --opt o=bind
     - name: Build the Docker image
       run: docker build . -t newman
     - name: Run docker container
-      #continue-on-error: true
-      run: docker run -v myvol:/newman newman
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v3
-      with:
-          name: test report
-          path: |
-            /home/runner/work/postmanNewmanExample/postmanNewmanExample/reports
+      run: docker run newman
